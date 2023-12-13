@@ -1,2 +1,1 @@
-# Food-Ordering-App
-Assignment
+# food-ordering-app-java-android
