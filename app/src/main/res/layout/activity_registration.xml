@@ -14,7 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-         />
+        android:src="@drawable/pizza"/>
 
     <TextView
         android:layout_width="match_parent"
