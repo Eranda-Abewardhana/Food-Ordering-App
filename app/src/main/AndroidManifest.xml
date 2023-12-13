@@ -28,7 +28,8 @@
         </activity>
         <activity
             android:name=".loginregistration.PasswordResetActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Theme.Material3.Light.NoActionBar" />
         <activity
             android:name=".loginregistration.RegistrationActivity"
             android:exported="false"
