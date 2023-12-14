@@ -1,0 +1,5 @@
+<resources>
+    <style name="MyTabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="tabIconTint">@color/color_selector_tab_icon</item>
+    </style>
+</resources>
