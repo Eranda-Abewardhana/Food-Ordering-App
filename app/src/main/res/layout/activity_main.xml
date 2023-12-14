@@ -1,26 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:orientation="vertical"
-    android:gravity="center"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/user_details"
-        android:layout_width="wrap_content"
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        />
+        android:backgroundTint="#393838"
+        app:cardBackgroundColor="#686666"
+        app:cardCornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/logout"
-        android:text="@string/logout"
-        />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab"
+            style="@style/MyTabLayout"
+            app:tabIndicatorAnimationMode="elastic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            app:tabBackground="@color/heading"
+            app:tabIconTint="@color/white"
+            app:tabIndicatorColor="#FFFFFF"
+            app:tabTextColor="@color/heading"
+            app:tabUnboundedRipple="false">
 
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/home"
+                android:outlineAmbientShadowColor="@color/white"
+                android:outlineSpotShadowColor="@color/white" />
 
-</LinearLayout>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/cart_white"
+                app:iconTint="@color/color_selector_tab_icon" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/checkout" />
+        </com.google.android.material.tabs.TabLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

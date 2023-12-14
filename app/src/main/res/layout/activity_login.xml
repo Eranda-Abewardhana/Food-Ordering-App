@@ -7,6 +7,15 @@
     android:background="@color/white"
     tools:context=".loginregistration.LoginActivity">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="#FF9800"
+        android:progressTint="#FF9800"
+        android:visibility="visible" />
+
     <ImageView
         android:layout_width="250dp"
         android:layout_height="250dp"
@@ -21,7 +30,7 @@
         android:text="@string/login"
         android:gravity="center"
         android:layout_marginTop="10dp"
-        android:textColor="#9C27B0"
+        android:textColor="#FF9800"
         android:textSize="25dp"
         android:textStyle="bold" />
 
@@ -78,27 +87,20 @@
         android:gravity="start"
         android:textColor="#2196F3"/>
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:visibility="gone"
-        />
-
     <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_login"
-        android:layout_marginTop="30dp"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:text="@string/login"
-        android:padding="5dp"
-        android:background="#9C27B0"
-        android:backgroundTint="#9C27B0"
-        android:textSize="18dp"
         android:elevation="@dimen/cardview_default_elevation"
-        android:textAllCaps="false" />
+        android:padding="5dp"
+        android:text="@string/login"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+         /> <!-- Set your desired color using hex or color resource -->
+
 
     <LinearLayout
         android:layout_width="match_parent"

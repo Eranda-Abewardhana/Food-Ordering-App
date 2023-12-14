@@ -30,7 +30,11 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.j256.ormlite:ormlite-android:5.4")
+    implementation ("com.j256.ormlite:ormlite-core:5.4")
+    implementation ("com.google.code.gson:gson:2.8.9")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
+    implementation("androidx.viewpager:viewpager:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
