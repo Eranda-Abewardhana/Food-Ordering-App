@@ -90,7 +90,7 @@
         android:visibility="gone"
         />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_register"
@@ -99,11 +99,12 @@
         android:layout_marginEnd="30dp"
         android:text="@string/register"
         android:padding="5dp"
-        android:background="#9C27B0"
-        android:backgroundTint="#9C27B0"
+        android:backgroundTint="#4EB027"
         android:textSize="18dp"
         android:elevation="@dimen/cardview_default_elevation"
-        android:textAllCaps="false" />
+        android:textAllCaps="false">
+
+</androidx.appcompat.widget.AppCompatButton>
 
     <LinearLayout
         android:layout_width="match_parent"
