@@ -1,5 +1,8 @@
 package com.example.wavesoffood.Adapters;
 
+import static com.example.wavesoffood.MainActivity.viewPager;
+import static com.example.wavesoffood.MainActivity.vpAdapter;
+
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -18,8 +22,11 @@ import com.example.wavesoffood.Database.DishDTO;
 import com.example.wavesoffood.Fragments.CartFragment;
 import com.example.wavesoffood.Fragments.HomeFragment;
 import com.example.wavesoffood.GlobalVariables;
+import com.example.wavesoffood.MainActivity;
 import com.example.wavesoffood.R;
 import com.example.wavesoffood.models.JsonModel;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -41,7 +48,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
         TextView name,count;
         TextView price,total;
         ImageView plus;
-        ImageView minus;
+        ImageView minus,del;
         public ItemViewHloder(@NonNull View itemView) {
             super(itemView);
             name  = itemView.findViewById(R.id.name);
@@ -51,6 +58,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
             minus = itemView.findViewById(R.id.minus);
             count = itemView.findViewById(R.id.count);
             total = itemView.findViewById(R.id.total);
+            del   = itemView.findViewById(R.id.del);
         }
     }
     @NonNull
@@ -67,23 +75,85 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
         holder.price.setText(decformat.format(p.getPrice()));
         holder.count.setText(String.valueOf(p.getQty()));
         holder.total.setText(decformat.format(p.getPrice()*p.getQty()));
+        MainActivity.tableLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // Tab selected, you can get the current tab here
+                int currentTabPosition = tab.getPosition();
+                if(currentTabPosition == 0){
+//                    if(GlobalVariables.cartList.size() > 0){
+//                        MainActivity.cancel.setVisibility(View.VISIBLE);
+//                        MainActivity.addCart.setVisibility(View.VISIBLE);
+//                    }else {
+//                        MainActivity.cancel.setVisibility(View.GONE);
+//                        MainActivity.addCart.setVisibility(View.GONE);
+//                    }
+                }
+                if(currentTabPosition == 1){
+                    holder.del.setVisibility(View.VISIBLE);
+                    if(GlobalVariables.cartList.size() > 0){
+                        CartFragment.empty.setVisibility(View.GONE);
+                        CartFragment.recyclerView.setVisibility(View.VISIBLE);
+                    }else {
+                        CartFragment.empty.setVisibility(View.VISIBLE);
+                        CartFragment.recyclerView.setVisibility(View.GONE);
+                    }
+                }
+                else {
+                    holder.del.setVisibility(View.GONE);
+                }
+                // Do something with the current tab position
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // Tab unselected
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // Tab reselected
+            }
+        });
         if(p.getQty() > 0 ){
             holder.total.setVisibility(View.VISIBLE);
         }
         else {
             holder.total.setVisibility(View.GONE);
         }
+        holder.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(p.getQty() > 0){
+                    for (DishDTO addedItem : GlobalVariables.cartList){
+                        if(p.getId() == addedItem.getId()){
+                            GlobalVariables.cartList.remove(addedItem);
+                            p.setQty(0);
+                            break;
+                        }
+                    }
+                }
+                CartFragment.totalUpdate();
+                notifyDataSetChanged();
+                HomeFragment.itemAdapter.notifyDataSetChanged();
+                if(CartFragment.itemAdapter2 != null)
+                    CartFragment.itemAdapter2.notifyDataSetChanged();
+                enableIcon();
+            }
+        });
         holder.plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 count = p.getQty();
                 count += 1;
                 p.setQty(count);
+                cartUpdate(p);
+                CartFragment.totalUpdate();
                 notifyDataSetChanged();
                 HomeFragment.itemAdapter.notifyDataSetChanged();
                 if(CartFragment.itemAdapter2 != null)
                     CartFragment.itemAdapter2.notifyDataSetChanged();
-                cartUpdate(p);
+                enableIcon();
             }
         });
         holder.minus.setOnClickListener(new View.OnClickListener() {
@@ -92,16 +162,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
                 count = p.getQty() -1 ;
                 if(count > -1)
                     p.setQty(count);
+                    cartUpdate(p);
+                    CartFragment.totalUpdate();
                     notifyDataSetChanged();
                     HomeFragment.itemAdapter.notifyDataSetChanged();
                     if(CartFragment.itemAdapter2 != null)
                         CartFragment.itemAdapter2.notifyDataSetChanged();
-                    cartUpdate(p);
+                    enableIcon();
             }
         });
         //                count = p.getQty();
 
     }
+
+    private void enableIcon() {
+        if(GlobalVariables.cartList.size() > 0){
+            MainActivity.cancel.setVisibility(View.VISIBLE);
+            MainActivity.addCart.setVisibility(View.VISIBLE);
+        }else {
+            MainActivity.cancel.setVisibility(View.GONE);
+            MainActivity.addCart.setVisibility(View.GONE);
+        }
+    }
+
 
     private void cartUpdate(DishDTO p) {
         if( count > 0 && GlobalVariables.cartList.size() > 0 ){

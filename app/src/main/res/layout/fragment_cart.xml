@@ -6,36 +6,55 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
+        android:keepScreenOn="false"
+        android:visibility="visible"
+        tools:layout_editor_absoluteY="407dp"
+        tools:listitem="@layout/product_item" />
+
     <LinearLayout
+        android:id="@+id/emptyCart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:visibility="visible">
 
-        <TextView
-            android:id="@+id/textView5"
+
+        <ImageView
+            android:id="@+id/imageViewEmptyCart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cart is Empty"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/emptycart" />
+
+        <TextView
+            android:id="@+id/textViewEmptyCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/imageViewEmptyCart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:fontFamily="@font/aldrich"
+            android:text="Your cart is Empty"
             android:textAlignment="center"
-            android:textSize="48sp"
+            android:textColor="@android:color/black"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/buttonShopNow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/logout"
+            android:layout_below="@id/textViewEmptyCart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Shop Now"
             android:visibility="gone" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:isScrollContainer="true"
-            android:keepScreenOn="false"
-            android:visibility="gone"
-            tools:listitem="@layout/product_item" />
 
     </LinearLayout>
 
@@ -44,8 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:backgroundTint="@color/teal_700"
-        android:visibility="gone"
+        android:backgroundTint="#FFC107"
+        android:visibility="visible"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="10dp">
@@ -53,6 +72,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="20dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -66,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
+                    android:textColor="@color/white"
                     android:text="Net Total"
                     android:textStyle="bold" />
 
@@ -74,9 +95,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
+                    android:textStyle="bold"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="textEnd" />
+                    android:text="0.00"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <LinearLayout
@@ -91,7 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
-                    android:text="Total Quantity"
+                    android:text="Total Items"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <TextView
@@ -100,15 +124,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
-                    android:text="TextView"
-                    android:textAlignment="textEnd" />
+                    android:textStyle="bold"
+                    android:text="0"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/white" />
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:background="@color/teal_700" />
+                android:background="#FFC107" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -33,6 +34,7 @@ import java.util.Map;
 
 public class CheckoutFragment extends Fragment {
 
+    private static final int MY_SOCKET_TIMEOUT_MS =  15000;
     private EditText etCardNumber, etExpDate, etCVC;
     private Button btnPay;
     String SECRECT_KEY = "sk_test_51ONOgHIKX7yEjKRLgVFP7P2EGA1ONjpFT8oZ6gvgbrfTM83swtGgNM8UZ7IBVo2GLzZOBZ9FaE36GB2fKtAcQUU200hqdIwNmc";
@@ -46,18 +48,39 @@ public class CheckoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_checkout, container, false);
 
-        etCardNumber = view.findViewById(R.id.etCardNumber);
-        etExpDate = view.findViewById(R.id.etExpDate);
-        etCVC = view.findViewById(R.id.etCVC);
+//        etCardNumber = view.findViewById(R.id.etCardNumber);
+//        etExpDate = view.findViewById(R.id.etExpDate);
+//        etCVC = view.findViewById(R.id.etCVC);
         btnPay = view.findViewById(R.id.btnPay);
 
-        PaymentConfiguration.init(getContext(), PUBLISH_KEY);
-        paymentSheet = new PaymentSheet(this, this::OnPaymentResult);
+//        PaymentConfiguration.init(getContext(), PUBLISH_KEY);
+//        paymentSheet = new PaymentSheet(this, this::OnPaymentResult);
 
-//        PaymentConfiguration.init(getContext(),PUBLISH_KEY);
-//        paymentSheet = new PaymentSheet(this,paymentSheetResult -> {
-//            OnPaymentResult(paymentSheetResult);
-//        });
+        // Make the initial request to create a customer
+        createCustomer();
+
+        PaymentConfiguration.init(getContext(),PUBLISH_KEY);
+
+        paymentSheet = new PaymentSheet(this,paymentSheetResult -> {
+            OnPaymentResult(paymentSheetResult);
+        });
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Call the method to handle payment
+                try {
+                    Paymentflow();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
+
+        return view;
+    }
+
+    private void createCustomer() {
         StringRequest stringRequest = new StringRequest(
                 Request.Method.POST,
                 "https://api.stripe.com/v1/customers",
@@ -67,8 +90,9 @@ public class CheckoutFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             customerID = jsonObject.getString("id");
-                            getEphericalKey(customerID);
+//                            Toast.makeText(getContext(), "customerID "+customerID, Toast.LENGTH_LONG).show();
                             // Continue with the rest of the logic
+                            getEphericalKey(customerID);
                             getClientSecret(customerID, ephericalKey);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -79,31 +103,20 @@ public class CheckoutFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
-                        // This block of code is executed if there is an error in the request
-                        // 'error' parameter contains information about the error
+                        // Handle the error
                     }
                 }
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> header = new HashMap<>();
-                header.put("Authorization","Bearer " + SECRECT_KEY);
+                Map<String, String> header = new HashMap<>();
+                header.put("Authorization", "Bearer " + SECRECT_KEY);
                 return header;
             }
         };
 
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
-
-        btnPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Call the method to handle payment
-                Paymentflow();
-            }
-        });
-
-        return view;
     }
 
     private void OnPaymentResult(PaymentSheetResult paymentSheetResult) {
@@ -122,6 +135,7 @@ public class CheckoutFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             ephericalKey = jsonObject.getString("id");
+//                            Toast.makeText(getContext(),"ephericalKey "+ephericalKey,Toast.LENGTH_LONG).show();
                             getEphericalKey(customerID);
                             getClientSecret(customerID,ephericalKey);
                         } catch (JSONException e) {
@@ -154,6 +168,12 @@ public class CheckoutFragment extends Fragment {
                 return params;
             }
         };
+        // Set Retry Policy
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -168,6 +188,7 @@ public class CheckoutFragment extends Fragment {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             clientSecret = jsonObject.getString("id");
+//                            Toast.makeText(getContext(),clientSecret,Toast.LENGTH_LONG).show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -198,6 +219,12 @@ public class CheckoutFragment extends Fragment {
                 return params;
             }
         };
+        // Set Retry Policy
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -213,48 +240,4 @@ public class CheckoutFragment extends Fragment {
         }
     }
 
-
-
-    private void updateUIBasedOnCardType(CardType cardType) {
-        // Customize this method to update your UI based on the detected card type
-        switch (cardType) {
-            case VISA:
-                Toast.makeText(requireContext(), "Card type: Visa", Toast.LENGTH_SHORT).show();
-                // Update your UI for Visa card
-                break;
-            case MASTERCARD:
-                Toast.makeText(requireContext(), "Card type: MasterCard", Toast.LENGTH_SHORT).show();
-                // Update your UI for MasterCard
-                break;
-            case AMEX:
-                Toast.makeText(requireContext(), "Card type: American Express", Toast.LENGTH_SHORT).show();
-                // Update your UI for American Express
-                break;
-            case UNKNOWN:
-                Toast.makeText(requireContext(), "Card type: Unknown", Toast.LENGTH_SHORT).show();
-                // Update your UI for an unknown card type
-                break;
-        }
-    }
-
-    private CardType detectCardType(String cardNumber) {
-        // Implement card type detection logic here, e.g., using regex or a library
-        // This is a simplified example; you may want to use a more robust solution
-        if (cardNumber.startsWith("4")) {
-            return CardType.VISA;
-        } else if (cardNumber.startsWith("5")) {
-            return CardType.MASTERCARD;
-        } else if (cardNumber.startsWith("34") || cardNumber.startsWith("37")) {
-            return CardType.AMEX;
-        } else {
-            return CardType.UNKNOWN;
-        }
-    }
-
-    private enum CardType {
-        VISA,
-        MASTERCARD,
-        AMEX,
-        UNKNOWN
-    }
 }

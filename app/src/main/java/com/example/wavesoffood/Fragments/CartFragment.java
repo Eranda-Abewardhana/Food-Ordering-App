@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.wavesoffood.Adapters.ItemAdapter;
@@ -22,22 +23,22 @@ import com.example.wavesoffood.R;
 import java.text.DecimalFormat;
 
 public class CartFragment extends Fragment {
-    private RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     private CardView cardView;
-    private TextView test,net,qty;
+    public static TextView test,net,qty;
     public ImageView cancel,ckeckout,payment;
     public static ItemAdapter itemAdapter2;
-    DecimalFormat decformat = new DecimalFormat("#,##0.00");
+    public static DecimalFormat decformat = new DecimalFormat("#,##0.00");
+    public static View view;
+    public static LinearLayout empty;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view    = inflater.inflate(R.layout.fragment_cart, container, false);
+             view    = inflater.inflate(R.layout.fragment_cart, container, false);
         recyclerView = view.findViewById(R.id.recycle);
         cardView     = view.findViewById(R.id.card2);
-        test         = view.findViewById(R.id.textView5);
-        net          = view.findViewById(R.id.net);
-        qty          = view.findViewById(R.id.qty);
         cancel       = view.findViewById(R.id.fab);
+        empty        = view.findViewById(R.id.emptyCart);
 
         GlobalVariables.total = 0;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -56,19 +57,25 @@ public class CartFragment extends Fragment {
         if(GlobalVariables.cartList.size() > 0 ){
             recyclerView.setVisibility(View.VISIBLE);
             cardView.setVisibility(View.VISIBLE);
-            test.setVisibility(View.GONE);
         }
         else{
             recyclerView.setVisibility(View.VISIBLE);
             cardView.setVisibility(View.VISIBLE);
-            test.setVisibility(View.VISIBLE);
         }
+        totalUpdate();
+        return view;
+    }
+    public static void totalUpdate() {
+        GlobalVariables.total = 0;
         for (int i = 0 ; i < GlobalVariables.cartList.size();i++){
             DishDTO item   = GlobalVariables.cartList.get(i);
             GlobalVariables.total += item.getPrice() * item.getQty();
         }
-        net.setText(decformat.format(GlobalVariables.total));
-        qty.setText(String.valueOf(GlobalVariables.cartList.size()));
-        return view;
+        if(view != null) {
+            net = view.findViewById(R.id.net);
+            qty = view.findViewById(R.id.qty);
+            net.setText(decformat.format(GlobalVariables.total));
+            qty.setText(String.valueOf(GlobalVariables.cartList.size()));
+        }
     }
 }
