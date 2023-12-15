@@ -56,12 +56,12 @@ public class CartFragment extends Fragment {
         if(GlobalVariables.cartList.size() > 0 ){
             recyclerView.setVisibility(View.VISIBLE);
             cardView.setVisibility(View.VISIBLE);
-            test.setVisibility(View.GONE);
+//            test.setVisibility(View.GONE);
         }
         else{
             recyclerView.setVisibility(View.VISIBLE);
             cardView.setVisibility(View.VISIBLE);
-            test.setVisibility(View.VISIBLE);
+//            test.setVisibility(View.VISIBLE);
         }
         for (int i = 0 ; i < GlobalVariables.cartList.size();i++){
             DishDTO item   = GlobalVariables.cartList.get(i);

@@ -46,9 +46,6 @@ public class CheckoutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_checkout, container, false);
 
-        etCardNumber = view.findViewById(R.id.etCardNumber);
-        etExpDate = view.findViewById(R.id.etExpDate);
-        etCVC = view.findViewById(R.id.etCVC);
         btnPay = view.findViewById(R.id.btnPay);
 
         PaymentConfiguration.init(getContext(), PUBLISH_KEY);
@@ -167,7 +164,7 @@ public class CheckoutFragment extends Fragment {
                     public void onResponse(String response) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
-                            clientSecret = jsonObject.getString("id");
+                            clientSecret = jsonObject.getString("client_secret");
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

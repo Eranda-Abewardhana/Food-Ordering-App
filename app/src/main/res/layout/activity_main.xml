@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -66,7 +66,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/basket"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/fab"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -76,7 +76,7 @@
         android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/cardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/close" />

@@ -1,5 +1,6 @@
 package com.example.wavesoffood.Fragments;
 
+import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -48,7 +49,7 @@ public class HomeFragment extends Fragment {
         // Make the API request
         // Make the API request after 60 seconds
         Handler handler = new Handler();
-//        ormliteHelper = new OrmliteHelper(getContext());
+        ormliteHelper = new OrmliteHelper(getContext());
         Runnable apiRunnable = new Runnable() {
             @Override
             public void run() {
@@ -153,13 +154,13 @@ public class HomeFragment extends Fragment {
 //                        dish.setVeg(dishObject.getBoolean("isVeg"));
                         dish.setPrice(dishObject.getDouble("price"));
                         dishesList.add(dish);
-//                        try {
-//                            ormliteHelper.createOrUpdate( dish );
-//                        }
-//                        catch (SQLException | java.sql.SQLException throwables) {
-//                            throwables.printStackTrace();
-//                            Toast.makeText( getContext(),throwables.getMessage(),Toast.LENGTH_LONG ).show();
-//                        }
+                        try {
+                            ormliteHelper.createOrUpdate( dish );
+                        }
+                        catch (SQLException | java.sql.SQLException throwables) {
+                            throwables.printStackTrace();
+                            Toast.makeText( getContext(),throwables.getMessage(),Toast.LENGTH_LONG ).show();
+                        }
 //                        DAO.txn.beginTransaction();
 //                        DAO.create(dish, DishDTO.class);
 //                        DAO.txn.setTransactionSuccessful();
