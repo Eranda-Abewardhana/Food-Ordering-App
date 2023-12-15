@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId = "com.example.wavesoffood"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 28
         versionCode = 1
         versionName = "1.0"
 
@@ -34,9 +34,10 @@ dependencies {
 
 //    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
     implementation ("com.stripe:stripe-android:20.35.2")
+    implementation ("com.stripe:stripe-java:20.77.0")
     implementation("com.android.volley:volley:1.2.1")
     implementation ("com.stripe:stripe-java:20.77.0")
-    implementation("com.j256.ormlite:ormlite-android:5.4")
+    implementation("com.j256.ormlite:ormlite-android:4.48")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
     implementation("androidx.viewpager:viewpager:1.0.0")

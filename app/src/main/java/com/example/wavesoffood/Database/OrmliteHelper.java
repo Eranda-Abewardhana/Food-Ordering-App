@@ -13,7 +13,7 @@ import java.util.List;
 
 public class OrmliteHelper extends OrmLiteSqliteOpenHelper {
 
-    public static final String DB_NAME = "food.db";
+    public static final String DB_NAME = "food_.db";
     private static final int DB_VERSION = 1;
     private Context context;
     // Public methods

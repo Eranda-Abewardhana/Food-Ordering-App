@@ -26,9 +26,10 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     TextView textView;
     FirebaseUser user;
-    TabLayout tableLayout;
-    ViewPager2 viewPager;
-    ImageView cancel,addCart;
+    public static TabLayout tableLayout;
+    public static ViewPager2 viewPager;
+    public static ImageView cancel,addCart;
+    public static VPAdapter vpAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.pager);
 //        button = findViewById(R.id.logout);  // Assuming you have a button with the id 'logout'
 
-        VPAdapter vpAdapter = new VPAdapter(this); // 'this' refers to your FragmentActivity
+                  vpAdapter = new VPAdapter(this); // 'this' refers to your FragmentActivity
         vpAdapter.addFragment(new HomeFragment(), "Home", R.drawable.home); // Replace ic_home with your actual drawable resource
         vpAdapter.addFragment(new CartFragment(), "Cart", R.drawable.cart_white); // Replace ic_cart with your actual drawable resource
         vpAdapter.addFragment(new CheckoutFragment(), "Checkout", R.drawable.checkout); // Replace ic_checkout with your actual drawable resource
@@ -72,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GlobalVariables.cartList.clear();
+//
+//                GlobalVariables.cartList.clear();
+//                HomeFragment.itemAdapter.notifyDataSetChanged();
             }
         });
 
