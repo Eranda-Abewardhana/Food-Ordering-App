@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
+
 }
 
 android {
@@ -30,8 +31,12 @@ android {
 }
 
 dependencies {
-    implementation ("com.j256.ormlite:ormlite-android:5.4")
-    implementation ("com.j256.ormlite:ormlite-core:5.4")
+
+//    implementation ("org.jetbrains.kotlin:kotlin-stdlib:1.5.31")
+    implementation ("com.stripe:stripe-android:20.35.2")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation ("com.stripe:stripe-java:20.77.0")
+    implementation("com.j256.ormlite:ormlite-android:5.4")
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.12.5")
     implementation("androidx.viewpager:viewpager:1.0.0")
