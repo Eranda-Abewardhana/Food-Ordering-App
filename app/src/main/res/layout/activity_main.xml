@@ -15,6 +15,7 @@
         android:layout_height="match_parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="#393838"
@@ -27,13 +28,13 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab"
             style="@style/MyTabLayout"
-            app:tabIndicatorAnimationMode="elastic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="1dp"
             android:layout_marginEnd="1dp"
             app:tabBackground="@color/heading"
             app:tabIconTint="@color/white"
+            app:tabIndicatorAnimationMode="elastic"
             app:tabIndicatorColor="#FFFFFF"
             app:tabTextColor="@color/heading"
             app:tabUnboundedRipple="false">
@@ -57,5 +58,38 @@
                 android:icon="@drawable/checkout" />
         </com.google.android.material.tabs.TabLayout>
     </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/fab2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/basket"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/fab"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/fab"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/close" />
+
+    <ImageView
+        android:id="@+id/fab3"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/check" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
