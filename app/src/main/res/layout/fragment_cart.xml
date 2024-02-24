@@ -6,15 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:isScrollContainer="true"
-        android:keepScreenOn="false"
-        android:visibility="visible"
-        tools:layout_editor_absoluteY="407dp"
-        tools:listitem="@layout/product_item" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_marginTop="-20dp"
+            android:layout_marginLeft="-10dp"
+            android:layout_marginRight="-10dp"
+            app:cardCornerRadius="50dp"
+            android:padding="10dp"
+            android:layout_height="match_parent" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/textView5"
+                    android:padding="20dp"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:background="@color/black"
+                    android:layout_width="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="25dp"
+                    android:layout_height="wrap_content"
+                    android:text="Order Summmary" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:isScrollContainer="true"
+            android:keepScreenOn="false"
+            android:visibility="visible"
+            tools:layout_editor_absoluteY="407dp"
+            tools:listitem="@layout/product_item" />
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/emptyCart"
@@ -88,6 +127,7 @@
                     android:layout_weight="1"
                     android:textColor="@color/white"
                     android:text="Net Total"
+                    android:textSize="24sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -98,6 +138,7 @@
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:text="0.00"
+                    android:textSize="24sp"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -115,6 +156,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_weight="1"
                     android:text="Total Items"
+                    android:textSize="18sp"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -126,6 +168,7 @@
                     android:layout_weight="1"
                     android:textStyle="bold"
                     android:text="0"
+                    android:textSize="18sp"
                     android:textAlignment="textEnd"
                     android:textColor="@color/white" />
             </LinearLayout>
@@ -133,7 +176,7 @@
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="40dp"
                 android:background="#FFC107" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

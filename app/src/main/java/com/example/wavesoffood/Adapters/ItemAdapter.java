@@ -81,16 +81,17 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
                 // Tab selected, you can get the current tab here
                 int currentTabPosition = tab.getPosition();
                 if(currentTabPosition == 0){
-//                    if(GlobalVariables.cartList.size() > 0){
-//                        MainActivity.cancel.setVisibility(View.VISIBLE);
-//                        MainActivity.addCart.setVisibility(View.VISIBLE);
-//                    }else {
-//                        MainActivity.cancel.setVisibility(View.GONE);
-//                        MainActivity.addCart.setVisibility(View.GONE);
-//                    }
+                    MainActivity.addCart.setVisibility(View.VISIBLE);
+                    MainActivity.cancel.setVisibility(View.VISIBLE);
                 }
-                if(currentTabPosition == 1){
+                else
+                {
+                    MainActivity.addCart.setVisibility(View.GONE);
+                    MainActivity.cancel.setVisibility(View.GONE);
+                }
+                if(currentTabPosition == 1 && CartFragment.empty  != null){
                     holder.del.setVisibility(View.VISIBLE);
+
                     if(GlobalVariables.cartList.size() > 0){
                         CartFragment.empty.setVisibility(View.GONE);
                         CartFragment.recyclerView.setVisibility(View.VISIBLE);
@@ -102,17 +103,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
                 else {
                     holder.del.setVisibility(View.GONE);
                 }
-                // Do something with the current tab position
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // Tab unselected
+
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                // Tab reselected
+
             }
         });
         if(p.getQty() > 0 ){
@@ -171,8 +171,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
                     enableIcon();
             }
         });
-        //                count = p.getQty();
-
     }
 
     private void enableIcon() {
@@ -185,10 +183,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
         }
     }
 
-
     private void cartUpdate(DishDTO p) {
         if( count > 0 && GlobalVariables.cartList.size() > 0 ){
-//            for(DishDTO item : jsonModels){
             boolean check = false;
                 for (DishDTO addedItem : GlobalVariables.cartList){
                     if(p.getId() == addedItem.getId()){
@@ -200,19 +196,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHloder
                 if(!check){
                     GlobalVariables.cartList.add(p);
                 }
-//            }
         }
         else if (count > 0){
             GlobalVariables.cartList.add(p);
         }
         else if( count == 0 ){
-//            for(DishDTO item : jsonModels){
                 for (DishDTO addedItem : GlobalVariables.cartList){
                     if(p.getId() == addedItem.getId()){
                         GlobalVariables.cartList.remove(addedItem);
                         break;
                     }
-//                }
             }
         }
     }

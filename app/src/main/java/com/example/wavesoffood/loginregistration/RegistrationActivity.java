@@ -34,7 +34,6 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -77,10 +76,6 @@ public class RegistrationActivity extends AppCompatActivity {
     {
         progressBar.setVisibility(View.VISIBLE);
         String email, password,cpassword;
-
-//      email = editTextEmail.getText().toString();
-//      password = editTextPassword.getText().toString();
-
         email = String.valueOf(editTextEmail.getText());
         password = String.valueOf(editTextPassword.getText());
         cpassword = String.valueOf(confirmPassword.getText());
@@ -103,36 +98,31 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        if(password.length() < 6 || password.length() > 15)
-        if(!password.equals(cpassword))
-        {
-            Toast.makeText(getApplicationContext(),"Password length should be between 6 - 15 characters", Toast.LENGTH_SHORT).show();
-            return;
+        if(password.length() < 6 || password.length() > 15) {
+            if (!password.equals(cpassword)) {
+                Toast.makeText(getApplicationContext(), "Password length should be between 6 - 15 characters", Toast.LENGTH_SHORT).show();
+                return;
+            }
         }
 
         // create new user or register new user
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        progressBar.setVisibility(View.GONE);
-                        if (task.isSuccessful())
-                        {
-                            Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                        else
-                        {
-                            // If sign in fails, display a message to the user.
-                            //Log.wtf("Hello", "Successsssss!!! ", task.getException());
-                            Toast.makeText(RegistrationActivity.this, "Registration failed! Please try again..",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                progressBar.setVisibility(View.GONE);
+                if (task.isSuccessful())
+                {
+                    Toast.makeText(RegistrationActivity.this, "Registration Successful!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else
+                {
+                    Toast.makeText(RegistrationActivity.this, "Registration failed! Please try again..",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

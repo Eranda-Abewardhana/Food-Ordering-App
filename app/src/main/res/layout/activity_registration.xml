@@ -99,7 +99,7 @@
         android:layout_marginEnd="30dp"
         android:text="@string/register"
         android:padding="5dp"
-        android:backgroundTint="#4EB027"
+        android:backgroundTint="#D68930"
         android:textSize="18dp"
         android:elevation="@dimen/cardview_default_elevation"
         android:textAllCaps="false">

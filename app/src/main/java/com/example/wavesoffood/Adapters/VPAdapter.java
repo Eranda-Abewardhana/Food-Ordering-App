@@ -5,13 +5,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.example.wavesoffood.Fragments.LogoutFragment;
+
 import java.util.ArrayList;
 
 public class VPAdapter extends FragmentStateAdapter {
 
     private ArrayList<Fragment> fragmentArrayList = new ArrayList<>();
     private ArrayList<String> fragmentTitle = new ArrayList<>();
-    private ArrayList<Integer> fragmentIcon = new ArrayList<>(); // Add this line
+    private ArrayList<Integer> fragmentIcon = new ArrayList<>();
+    LogoutFragment logoutFragment;
 
     public VPAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -29,15 +32,19 @@ public class VPAdapter extends FragmentStateAdapter {
     }
 
     public void addFragment(Fragment fragment, String title, int icon) {
+
         fragmentArrayList.add(fragment);
         fragmentTitle.add(title);
-        fragmentIcon.add(icon); // Add this line
+        fragmentIcon.add(icon);
+
+        // If the added fragment is a LogoutFragment, keep a reference
+        if (fragment instanceof LogoutFragment) {
+            logoutFragment = (LogoutFragment) fragment;
+        }
     }
 
-//    public CharSequence getPageTitle(int position) {
-//        return fragmentTitle.get(position);
-//    }
     public int getIcon(int position) {
         return fragmentIcon.get(position);
-}
+    }
+
 }

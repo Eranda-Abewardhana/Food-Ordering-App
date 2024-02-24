@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
+    android:layout_marginBottom="20dp"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/main_layout_new">
 
 
     <androidx.viewpager2.widget.ViewPager2
@@ -51,6 +52,11 @@
                 android:layout_height="wrap_content"
                 android:icon="@drawable/cart_white"
                 app:iconTint="@color/color_selector_tab_icon" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:icon="@drawable/checkout" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"

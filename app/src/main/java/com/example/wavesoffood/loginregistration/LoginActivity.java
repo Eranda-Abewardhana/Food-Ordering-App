@@ -2,6 +2,8 @@ package com.example.wavesoffood.loginregistration;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -33,14 +35,17 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow, forgotPwd;
-
     boolean passwordVisible;
 
-    //check to see if the user is currently signed in
+    public static void navigate(AppCompatActivity activity) {
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -73,15 +78,15 @@ public class LoginActivity extends AppCompatActivity {
                         int selection = editTextPassword.getSelectionEnd();
                         if(passwordVisible)
                         {
-                            editTextPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_visibility_off_24,0);
                             //for hide password
+                            editTextPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_visibility_off_24,0);
                             editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
                             passwordVisible = false;
                         }
                         else
                         {
-                            editTextPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_visibility_24,0);
                             //for show password
+                            editTextPassword.setCompoundDrawablesRelativeWithIntrinsicBounds(0,0,R.drawable.ic_baseline_visibility_24,0);
                             editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                             passwordVisible = true;
                         }
@@ -114,10 +119,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
                 String email, password;
-
-//             email = editTextEmail.getText().toString();
-//             password = editTextPassword.getText().toString();
-
                 email = String.valueOf(editTextEmail.getText());
                 password = String.valueOf(editTextPassword.getText());
 
@@ -133,27 +134,22 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
 
-                // signin existing user
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressBar.setVisibility(View.GONE);
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Toast.makeText(LoginActivity.this, "Login Failed. Check your email/password",
-                                            Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-
+                // login to an existing user
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Login Failed. Check your email/password",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }

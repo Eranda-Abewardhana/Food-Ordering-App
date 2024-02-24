@@ -1,19 +1,24 @@
 package com.example.wavesoffood;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wavesoffood.Adapters.VPAdapter;
 import com.example.wavesoffood.Fragments.CartFragment;
 import com.example.wavesoffood.Fragments.CheckoutFragment;
 import com.example.wavesoffood.Fragments.HomeFragment;
+import com.example.wavesoffood.Fragments.LogoutFragment;
 import com.example.wavesoffood.loginregistration.LoginActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -22,24 +27,20 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    FirebaseAuth auth;
-    Button button;
-    TextView textView;
+    public static FirebaseAuth auth;
     FirebaseUser user;
     public static TabLayout tableLayout;
     public static ViewPager2 viewPager;
     public static ImageView cancel,addCart;
     public static VPAdapter vpAdapter;
+    LogoutFragment logoutFragment;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        DAO.init(getApplicationContext());
-        //initialize
         auth = FirebaseAuth.getInstance();
-//        button = findViewById(R.id.logout);
-//        textView = findViewById(R.id.user_details);
         user = auth.getCurrentUser();
 
         if(user == null)
@@ -48,21 +49,19 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
-//        else
-//        {
-//            textView.setText(user.getEmail());
-//        }
 
         cancel = findViewById(R.id.fab);
         addCart = findViewById(R.id.fab2);
         tableLayout = findViewById(R.id.tab);
         viewPager = findViewById(R.id.pager);
-//        button = findViewById(R.id.logout);  // Assuming you have a button with the id 'logout'
 
-                  vpAdapter = new VPAdapter(this); // 'this' refers to your FragmentActivity
-        vpAdapter.addFragment(new HomeFragment(), "Home", R.drawable.home); // Replace ic_home with your actual drawable resource
-        vpAdapter.addFragment(new CartFragment(), "Cart", R.drawable.cart_white); // Replace ic_cart with your actual drawable resource
-        vpAdapter.addFragment(new CheckoutFragment(), "Checkout", R.drawable.checkout); // Replace ic_checkout with your actual drawable resource
+        vpAdapter = new VPAdapter(this);
+        vpAdapter.addFragment(new HomeFragment(), "Home", R.drawable.home);
+        vpAdapter.addFragment(new CartFragment(), "Cart", R.drawable.cart_white);
+        vpAdapter.addFragment(new CheckoutFragment(), "Checkout", R.drawable.checkout);
+
+        logoutFragment = new LogoutFragment();
+        vpAdapter.addFragment(new LogoutFragment(), "Logout", R.drawable.baseline_logout_24);
 
         addCart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,31 +72,35 @@ public class MainActivity extends AppCompatActivity {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//
-//                GlobalVariables.cartList.clear();
-//                HomeFragment.itemAdapter.notifyDataSetChanged();
+
             }
         });
 
-        viewPager.setAdapter(vpAdapter); // Set the adapter first
+        viewPager.setAdapter(vpAdapter);
 
         new TabLayoutMediator(tableLayout, viewPager,
                 (tab, position) -> {
-                    tab.setIcon(vpAdapter.getIcon(position)); // Set the icon for the tab
+                    tab.setIcon(vpAdapter.getIcon(position));
                 }).attach();
 
+        tableLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 1 && GlobalVariables.cartList.size()>0 && CartFragment.empty != null) {
+                } else {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
+            }
 
-// ...
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                FirebaseAuth.getInstance().signOut();
-//                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
+            }
 
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 }

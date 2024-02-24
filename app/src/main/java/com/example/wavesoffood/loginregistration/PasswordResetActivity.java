@@ -28,7 +28,6 @@ public class PasswordResetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_password_reset);
-
         signIn = findViewById(R.id.signIn);
         resetpwdbtn = findViewById(R.id.resetpwdbtn);
         emailtxt = findViewById(R.id.email);
@@ -57,7 +56,7 @@ public class PasswordResetActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()) {
-                    Toast.makeText(PasswordResetActivity.this,"Password Recovery Email Sent",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PasswordResetActivity.this,"Password Recovery Email Sent successfully!",Toast.LENGTH_SHORT).show();
                     finish();
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 }
@@ -65,7 +64,7 @@ public class PasswordResetActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PasswordResetActivity.this,"Error. Please try again later",Toast.LENGTH_SHORT).show();
+                Toast.makeText(PasswordResetActivity.this,"Error. Please try again!",Toast.LENGTH_SHORT).show();
             }
         });
     }

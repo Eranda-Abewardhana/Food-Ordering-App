@@ -25,20 +25,21 @@ import java.text.DecimalFormat;
 public class CartFragment extends Fragment {
     public static RecyclerView recyclerView;
     private CardView cardView;
-    public static TextView test,net,qty;
-    public ImageView cancel,ckeckout,payment;
+    public static TextView net,qty;
+    public ImageView cancel;
     public static ItemAdapter itemAdapter2;
     public static DecimalFormat decformat = new DecimalFormat("#,##0.00");
+
     public static View view;
     public static LinearLayout empty;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-             view    = inflater.inflate(R.layout.fragment_cart, container, false);
+        view    = inflater.inflate(R.layout.fragment_cart, container, false);
         recyclerView = view.findViewById(R.id.recycle);
-        cardView     = view.findViewById(R.id.card2);
-        cancel       = view.findViewById(R.id.fab);
-        empty        = view.findViewById(R.id.emptyCart);
+        cardView = view.findViewById(R.id.card2);
+        cancel = view.findViewById(R.id.fab);
+        empty = view.findViewById(R.id.emptyCart);
 
         GlobalVariables.total = 0;
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -51,8 +52,6 @@ public class CartFragment extends Fragment {
         itemAdapter2 = new ItemAdapter(getContext(), GlobalVariables.cartList);
         recyclerView.setAdapter(itemAdapter2);
         itemAdapter2.notifyDataSetChanged();
-
-//        cancel.setVisibility(View.GONE);
 
         if(GlobalVariables.cartList.size() > 0 ){
             recyclerView.setVisibility(View.VISIBLE);
